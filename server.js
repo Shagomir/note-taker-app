@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 
-const api = require('./routes/index'); 
+const api = require('./routes/routeIndex.js'); 
 
 app.use('/api', api)
 

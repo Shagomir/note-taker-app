@@ -26,6 +26,10 @@ const readAndAppend = (content, file) => {
     } else {
       const parsedData = JSON.parse(data);
       parsedData.push(content);
+      console.log("beforeID", parsedData)
+      const ID = parsedData.length 
+      parsedData[ID - 1].id = ID 
+      console.log("afterID", parsedData)
       writeToFile(file, parsedData);
     }
   });

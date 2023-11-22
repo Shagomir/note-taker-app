@@ -1,8 +1,8 @@
-const db = require("../db/db.json");
-const notes = require("express").Router();
-const { readFromFile, readAndAppend } = require("../helpers/fsUtils");
-const { updateIDs, deleteID } = require("../helpers/dbUtils");
 
+const notes = require("express").Router();
+
+const { deleteID } = require("../helpers/dbUtils");
+const { readFromFile, readAndAppend } = require('../helpers/fsUtils');
 const express = require("express");
 const app = express();
 
@@ -11,9 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 notes.get("/", (req, res) => {
   console.info(`${req.method} /api/notes`);
-  readFromFile("./db/db.json").then((data) =>
-    res.status(200).json(JSON.parse(data))
-  );
+  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
 notes.post("/", (req, res) => {
@@ -33,17 +31,20 @@ notes.post("/", (req, res) => {
       text,
     };
 
+
+
+    console.log(newNote);
+    
+    readAndAppend(newNote, './db/db.json');
+
     const response = {
       status: "success",
       body: newNote,
     };
 
-    console.log(newNote);
-    readAndAppend(newNote, "./db/db.json")
-    updateIDs("./db/db.json")
-    res.status(201).json(response);
+    res.json(response);
   } else {
-    res.status(500).json("Error in posting note");
+    res.json('Error in posting note');
   }
 });
 
@@ -53,10 +54,10 @@ notes.delete("/:note_id", (req, res) => {
   if (req.params.note_id) {
     const noteID = req.params.note_id;
     //deleteID returns true if the ID was deleted, false if it was not.
-    const isDeleted = deleteID("./db/db.json", noteID);
+    const isDeleted = deleteID(noteID);
     if (isDeleted) {
       console.info(`Deleting note with ID ${noteID}`);
-      res.status(201).json(response);
+      res.status(201);
     } else {
       res.status(404).send("note not found");
     }
