@@ -12,9 +12,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
-
+// grab our API from the index routes. 
 const api = require('./routes/routeIndex.js'); 
-
 app.use('/api', api)
 
 // GET Route for homepage

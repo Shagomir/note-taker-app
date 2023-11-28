@@ -26,6 +26,9 @@ const readAndAppend = (content, file) => {
     } else {
       const parsedData = JSON.parse(data);
       parsedData.push(content);
+
+      //code to update the ID on the newly pushed data. We always assume the ID is going to be the index of its place in the array + 1.
+      //this can be verified looking at the notes-data attribute of a note on the notes page. 
       console.log("beforeID", parsedData)
       const ID = parsedData.length 
       parsedData[ID - 1].id = ID 
